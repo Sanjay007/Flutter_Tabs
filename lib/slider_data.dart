@@ -104,7 +104,7 @@ return Container(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           leftSectionIcons,
-                          middleSection
+                          rightSection
                         ],
                       )) ,
                     ],
@@ -128,7 +128,7 @@ return Container(
 
 
 
-final middleSection = new Expanded(
+final rightSection = new Expanded(
   child: new Container(
     padding: new EdgeInsets.fromLTRB(40, 0, 0, 0),
     child: new Column(
@@ -166,11 +166,11 @@ Column _buildShareCol(Color color, IconData icon, String label) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(
-          margin: EdgeInsets.fromLTRB(20, 15, 1, 0),
-          height: 23,
+          margin: EdgeInsets.fromLTRB(20, 5, 5, 5),
+          height: 40,
           //child: new Image.asset('assets/icons/icon-bookmark.png'))
           child: new IconButton(
-            iconSize: 20,
+            
             icon:  new Image.asset('assets/icons/icon-bookmark.png'),
            // tooltip: 'Closes application',
             onPressed: () => {

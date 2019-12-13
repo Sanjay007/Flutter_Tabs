@@ -92,109 +92,96 @@ class _NewsSliderState extends State<NewsSlider> {
 }
 
 
+// final _right_section = new Expanded(
+//   child: new Container(
+//     padding: new EdgeInsets.fromLTRB(40, 0, 0, 0),
+//     child: new Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//       children: <Widget>[
+//       _buildShareCol(Colors.brown, Icons.linked_camera, 'CALL'),
+//       ],
+//     ),
+//   ),
+// );
 
+// final leftSectionIcons = new Container(
+//   child: new Column(
+//     children: <Widget>[
+//       new Row(
+//                                   mainAxisSize: MainAxisSize.min,
+//                                   mainAxisAlignment: MainAxisAlignment.center,
+//                                   children: <Widget>[
+//                                     _buildButtonColumn(Colors.brown,
+//                                         Icons.linked_camera, 'CALL'),
+//                                     _buildIconColumn(
+//                                         Colors.brown, Icons.share, 'CALL'),
+//                                     // _buildButtonColumn(Colors.brown, Icons.arrow_downward, 'CALL'),
+//                                   ],
+//                                 ),
+//     ],
+//   ),
+// );
 
+// Column _buildShareCol(Color color, IconData icon, String label) {
+//   return Column(
+//     mainAxisSize: MainAxisSize.min,
+//     mainAxisAlignment: MainAxisAlignment.center,
+//     children: [
+//       Container(
+//           margin: EdgeInsets.fromLTRB(20, 15, 1, 0),
+//           height: 23,
+//           //child: new Image.asset('assets/icons/icon-bookmark.png'))
+//           child: new IconButton(
+//             iconSize: 20,
+//             icon:  new Image.asset('assets/icons/icon-bookmark.png'),
+//            // tooltip: 'Closes application',
+//             onPressed: () => {
 
+//             },
+//           ),
+//       )],
+//   );
+// }
 
+// Column _buildIconColumn(Color color, IconData icon, String label) {
+//   return Column(
+//     mainAxisSize: MainAxisSize.min,
+//     mainAxisAlignment: MainAxisAlignment.center,
+//     children: [
+//       Container(
+//         margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+//         child: Icon(
+//           Icons.share,
+//           color: Colors.pink,
+//           size: 20.0,
+//         ),
+//       )
+//     ],
+//   );
+// }
 
+// Column _buildButtonColumn(Color color, IconData icon, String label) {
+//   return Column(
+//     mainAxisSize: MainAxisSize.min,
+//     mainAxisAlignment: MainAxisAlignment.center,
+//     children: [
+//       Container(
+//           margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+//           child:
+//           new IconButton(
+//             iconSize: 20,
+//             icon:  new Image.asset('assets/icons/social-media.png'),
+//             tooltip: 'Closes application',
+//             onPressed: () => {
 
-
-
-
-
-
-
-
-final middleSection = new Expanded(
-  child: new Container(
-    padding: new EdgeInsets.fromLTRB(40, 0, 0, 0),
-    child: new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-      _buildShareCol(Colors.brown, Icons.linked_camera, 'CALL'),
-      ],
-    ),
-  ),
-);
-
-final leftSectionIcons = new Container(
-  child: new Column(
-    children: <Widget>[
-      new Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    _buildButtonColumn(Colors.brown,
-                                        Icons.linked_camera, 'CALL'),
-                                    _buildIconColumn(
-                                        Colors.brown, Icons.share, 'CALL'),
-                                    // _buildButtonColumn(Colors.brown, Icons.arrow_downward, 'CALL'),
-                                  ],
-                                ),
-    ],
-  ),
-);
-
-Column _buildShareCol(Color color, IconData icon, String label) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-          margin: EdgeInsets.fromLTRB(20, 15, 1, 0),
-          height: 23,
-          //child: new Image.asset('assets/icons/icon-bookmark.png'))
-          child: new IconButton(
-            iconSize: 20,
-            icon:  new Image.asset('assets/icons/icon-bookmark.png'),
-           // tooltip: 'Closes application',
-            onPressed: () => {
-
-            },
-          ),
-      )],
-  );
-}
-
-Column _buildIconColumn(Color color, IconData icon, String label) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: Icon(
-          Icons.share,
-          color: Colors.pink,
-          size: 20.0,
-        ),
-      )
-    ],
-  );
-}
-
-Column _buildButtonColumn(Color color, IconData icon, String label) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-          margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          child:
-          new IconButton(
-            iconSize: 20,
-            icon:  new Image.asset('assets/icons/social-media.png'),
-            tooltip: 'Closes application',
-            onPressed: () => {
-
-            },
-          )
-          )
+//             },
+//           )
+//           )
      
-    ],
-  );
-}
+//     ],
+//   );
+// }
 
 
 

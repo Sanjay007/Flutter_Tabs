@@ -10,6 +10,10 @@ import 'package:ui_test/utils/globals.dart' as globals;
 import 'package:ui_test/models/news_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ui_test/news_slider.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:ui_test/news_details.dart';
+
+import 'package:ui_test/news_details_old.dart';
 
 class NewsListing extends StatefulWidget {
   @override
@@ -60,26 +64,82 @@ class _NewsListingState extends State<NewsListing> {
 
   @override
   Widget build(BuildContext context) {
+    bool _saving = false;
     var parent_width = MediaQuery.of(context).size.width;
     var parent_height = MediaQuery.of(context).size.height;
 
+    // return Scaffold(
+    //     // backgroundColor: Colors.blue,
+    //     body: Column(
+    //   children: <Widget>[
+    //     Container(
+    //       child: horizontllistrecommendations(all),
+    //       height: 230,
+    //     ),
+    //     Expanded(
+    //         child: Container(
+    //       child: NewsSlider(this.allnews),
+    //       height: 150,
+    //       width: MediaQuery.of(context).size.width,
+    //       margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+    //     ))
+    //   ],
+    // ));
+
     return Scaffold(
-        // backgroundColor: Colors.blue,
-        body: Column(
-      children: <Widget>[
-        Container(
-          child: horizontllistrecommendations(all),
-          height: 230,
-        ),
-        Expanded(
-            child: Container(
-          child: NewsSlider(this.allnews),
-          height: 150,
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-        ))
-      ],
-    ));
+      backgroundColor: Colors.transparent,
+      body: ModalProgressHUD(
+          inAsyncCall: _saving,
+          progressIndicator: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.pink),
+          ),
+          child: SafeArea(
+              bottom: true,
+              top: false,
+              child: new GestureDetector(
+                  onTap: () {
+                    //Navigator.pop(context);
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                          flex: 1,
+                          child: CustomScrollView(
+                            //physics: NeverScrollableScrollPhysics(),
+                            slivers: <Widget>[
+                              SliverList(
+                                delegate: SliverChildListDelegate([
+                                  Container(
+                                    child: horizontllistrecommendations(all,context),
+                                    height: 230,
+                                  ),
+                                  Container(
+                                    child: NewsSlider(this.allnews),
+                                    height: 180,
+                                    width: MediaQuery.of(context).size.width,
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 0.0, horizontal: 10.0),
+                                  ),
+                                ]),
+                              ),
+                              SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                    var _news = allnews[index];
+                                    return new GestureDetector(
+                                        onTap: () {},
+                                        child: itemsListData(index));
+                                  },
+                                  childCount:
+                                      allnews.length > 0 ? allnews.length : 0,
+                                ),
+                              ),
+                            ],
+                          )),
+                    ],
+                  )))),
+    );
   }
 }
 
@@ -337,7 +397,7 @@ class _NewsListingState extends State<NewsListing> {
 //   );
 // }
 
-Widget horizontllistrecommendations(List<String> details) {
+Widget horizontllistrecommendations(List<String> details,BuildContext context) {
   return Container(
     margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
     color: Colors.white,
@@ -349,7 +409,10 @@ Widget horizontllistrecommendations(List<String> details) {
             details != null && details.length != null ? details.length : 0,
         itemBuilder: (context, index) {
           return new GestureDetector(
-              onTap: () {},
+              onTap: () {
+Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => new MyHomePage()));
+              },
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
                   child: Stack(
@@ -364,7 +427,7 @@ Widget horizontllistrecommendations(List<String> details) {
                           image: new DecorationImage(
                             // image: AssetImage('assets/ImageAsset/placeholder.png'),
                             image: new NetworkImage(
-                                "https://assets-news-bcdn.dailyhunt.in/cmd/resize/400x400_60/fetchdata15/images/e4/0c/0e/e40c0e23a0cff21e0e43fba1fcb35160.webp"),
+                                "https://i.ytimg.com/vi/8j8n7Fhx21s/maxresdefault_live.jpg"),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -558,7 +621,6 @@ Widget horizontllistrecommendations(List<String> details) {
 //                   ),
 //                 ),
 
-                
 //               ],
 //             ),
 //           ),
@@ -569,7 +631,6 @@ Widget horizontllistrecommendations(List<String> details) {
 //         ],
 //       ));
 // }
-
 
 // final middleSection = new Expanded(
 //   child: new Container(
@@ -657,7 +718,141 @@ Widget horizontllistrecommendations(List<String> details) {
 //             },
 //           )
 //           )
-     
+
 //     ],
 //   );
 // }
+
+Widget itemsListData(
+  index,
+) {
+  var formatterdateforlist = "Test";
+  return Container(
+      color: Colors.grey[100],
+      margin: EdgeInsets.fromLTRB(20, 5, 20, 0),
+      child: Column(
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Container(
+                      // color: Colors.green,
+                      decoration: new BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(8.0),
+                              topRight: const Radius.circular(8.0),
+                              bottomLeft: const Radius.circular(8.0),
+                              bottomRight: const Radius.circular(8.0))),
+                      width: 100,
+                      height: 100,
+                      margin: EdgeInsets.fromLTRB(16, 0, 4, 10),
+
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(8.0),
+                              topRight: const Radius.circular(8.0),
+                              bottomLeft: const Radius.circular(8.0),
+                              bottomRight: const Radius.circular(8.0)),
+                          image: DecorationImage(
+                            image: new NetworkImage(
+                              "https://miro.medium.com/max/1022/1*1WJH0jVJcC6uY7IpT449XA.jpeg",
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5, 14, 0, 0),
+                        child: Text(
+                          "Testttttt gvxgsvgd sdbcjd jdcjdn djnjd",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: globals.font_news),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(5, 5, 0, 0),
+                        child: Text(
+                          formatterdateforlist ?? "",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          maxLines: 10,
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: globals.font_news),
+                        ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(5, 5, 20, 20),
+                              child: Container(
+                                  // constraints: BoxConstraints(
+                                  //    minWidth: 40, maxWidth: 120),
+                                  height: 28,
+                                  decoration: new BoxDecoration(
+                                      // color: Colors.primaries[Random()
+                                      //     .nextInt(Colors.primaries.length)],
+                                      // borderRadius: new BorderRadius.only(
+                                      //     topLeft: const Radius.circular(4.0),
+                                      //     topRight:
+                                      //         const Radius.circular(4.0),
+                                      //     bottomLeft:
+                                      //         const Radius.circular(4.0),
+                                      //     bottomRight:
+                                      //         const Radius.circular(4.0))
+                                      ),
+                                  child: Center(
+                                    child: Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(5, 0, 8, 0),
+                                        child: Text(
+                                          "4th Jan",
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 14.0,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: globals.font_news),
+                                        )),
+                                  ))),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 1,
+            color: Colors.grey[100],
+          ),
+        ],
+      ));
+}

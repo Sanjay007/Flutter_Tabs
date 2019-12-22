@@ -18,6 +18,7 @@ import 'package:ui_test/details_page.dart';
 import 'package:ui_test/hotel-details.dart';
 
 import 'package:ui_test/news_details_old.dart';
+import 'package:ui_test/NewsDetails.dart';
 
 class NewsListing extends StatefulWidget {
   @override
@@ -415,7 +416,7 @@ Widget horizontllistrecommendations(List<String> details,BuildContext context) {
           return new GestureDetector(
               onTap: () {
 Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => new DetailsArea()));
+              builder: (context) => new NewsDetails()));
               },
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),

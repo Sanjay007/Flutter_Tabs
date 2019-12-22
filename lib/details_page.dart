@@ -28,6 +28,14 @@ class _DetailsAreaState extends State<DetailsArea> {
 List<DetailsModel> news=[];
 news.add(new DetailsModel("p", "The University of Delhi (DU), a Central University, has invited online applications from academically qualified and interested individuals for filling 51 vacancies to the post of Assistant Professors in various disciplines comprising Botany, Chemistry, Commerce, Economics, English, Environmental Science, Hindi, History, Mathematics, Philosophy, Physics, Political Science, Sanskrit, Sociology, Statistics and Zoology through direct recruitment to be posted at the Hindu College under DU. The application process towards the same started on December 3, 2019 and closes on December 30, 2019."));
 news.add(new DetailsModel("img","https://www.careerindia.com/img/2019/12/du-1575634287.jpg"));
+news.add(new DetailsModel("p", "The University of Delhi (DU), a Central University, has invited online applications from academically qualified and interested individuals for filling 51 vacancies to the post of Assistant Professors in various disciplines comprising Botany, Chemistry, Commerce, Economics, English, Environmental Science, Hindi, History, Mathematics, Philosophy, Physics, Political Science, Sanskrit, Sociology, Statistics and Zoology through direct recruitment to be posted at the Hindu College under DU. The application process towards the same started on December 3, 2019 and closes on December 30, 2019."));
+news.add(new DetailsModel("img","https://www.careerindia.com/img/2019/12/du-1575634287.jpg"));
+
+news.add(new DetailsModel("p", "The University of Delhi (DU), a Central University, has invited online applications from academically qualified and interested individuals for filling 51 vacancies to the post of Assistant Professors in various disciplines comprising Botany, Chemistry, Commerce, Economics, English, Environmental Science, Hindi, History, Mathematics, Philosophy, Physics, Political Science, Sanskrit, Sociology, Statistics and Zoology through direct recruitment to be posted at the Hindu College under DU. The application process towards the same started on December 3, 2019 and closes on December 30, 2019."));
+news.add(new DetailsModel("img","https://www.careerindia.com/img/2019/12/du-1575634287.jpg"));
+
+news.add(new DetailsModel("p", "The University of Delhi (DU), a Central University, has invited online applications from academically qualified and interested individuals for filling 51 vacancies to the post of Assistant Professors in various disciplines comprising Botany, Chemistry, Commerce, Economics, English, Environmental Science, Hindi, History, Mathematics, Philosophy, Physics, Political Science, Sanskrit, Sociology, Statistics and Zoology through direct recruitment to be posted at the Hindu College under DU. The application process towards the same started on December 3, 2019 and closes on December 30, 2019."));
+news.add(new DetailsModel("img","https://www.careerindia.com/img/2019/12/du-1575634287.jpg"));
 
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -67,7 +75,7 @@ news.add(new DetailsModel("img","https://www.careerindia.com/img/2019/12/du-1575
                   centerTitle: true,
                   collapseMode: CollapseMode.parallax,
                   title: Text(
-                    "test",
+                    "",
                     textAlign: TextAlign.left,
                     style: TextStyle(
                         color: Colors.white,
@@ -209,7 +217,7 @@ return new Container(
                                       bottomRight: const Radius.circular(4.0))),
                               child: Center(
                                 child: Text(
-                                 "test",
+                                 "",
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(

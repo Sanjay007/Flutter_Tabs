@@ -13,6 +13,10 @@ import 'package:ui_test/news_slider.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:ui_test/news_details.dart';
 
+import 'package:ui_test/details_page.dart';
+
+import 'package:ui_test/hotel-details.dart';
+
 import 'package:ui_test/news_details_old.dart';
 
 class NewsListing extends StatefulWidget {
@@ -411,7 +415,7 @@ Widget horizontllistrecommendations(List<String> details,BuildContext context) {
           return new GestureDetector(
               onTap: () {
 Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => new MyHomePage()));
+              builder: (context) => new DetailsArea()));
               },
               child: Container(
                   margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),

@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:ui_test/categories_navigator.dart' as prefix0;
 import 'package:ui_test/models/news_model.dart';
 import 'package:flutter/material.dart';
 
@@ -33,16 +34,15 @@ class DetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.menu,
-                      color: Colors.black,
+                      Icons.arrow_left,
+                      color: Colors.white,
                       size: 32,
                     ),
                     Text("News ",
                         style: TextStyle(
                           decoration: TextDecoration.none,
-                          
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: Colors.white,
                         )),
                     SizedBox(),
                   ],
@@ -52,7 +52,7 @@ class DetailPage extends StatelessWidget {
       children: <Widget>[
         Container(
             padding: EdgeInsets.only(left: 10.0),
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: 280,
             decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: new NetworkImage("https://images.pexels.com/photos/2007401/pexels-photo-2007401.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
@@ -81,25 +81,25 @@ class DetailPage extends StatelessWidget {
       ],
     );
 
-    final bottomContentText = Text(
-      'Hiii Guys',
-      style: TextStyle(fontSize: 15.0),
-    );
-    final readButton = Container(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
-          onPressed: () => {},
-          color: Color.fromRGBO(58, 66, 86, 1.0),
-          child:
-              Text("TAKE THIS LESSON", style: TextStyle(color: Colors.white)),
-        ));
-    final bottomContent = Container(
+   
+    final bottomContent = 
+    
+    Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(40.0),
+       decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40.0),
+                  topRight: Radius.circular(40.0)
+                )
+              ),
+
       child: Center(
         child: Column(
-          children: <Widget>[bottomContentText, readButton],
+          children: <Widget>[
+
+          ],
         ),
       ),
     );

@@ -27,7 +27,7 @@ dependencies:
   intl: ^0.15.8
   carousel_slider: ^1.3.0
   modal_progress_hud: ^0.1.3
-
+  flutter_html: ^0.11.1
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +48,8 @@ flutter:
     - assets/icons/social-media.png
     - assets/icons/icon-bookmark.png
     - assets/icons/icon-back-arrow-black.png
+    - assets/icons/icon-share.png
+    - assets/icons/icon-left.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,0 +1,268 @@
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:we_meet/models/Categorylist.dart';
+import 'package:we_meet/models/NewsDetails.dart';
+import 'package:we_meet/models/NewsPost.dart';
+
+import 'package:we_meet/services/webservice.dart';
+import 'dart:io' show Platform;
+//Api calling imports
+import 'package:we_meet/utils/NetworkCheck.dart';
+//import 'package:onesignal/onesignal.dart';
+//import 'package:onesignal/onesignal.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:we_meet/baseUrl/baseUrl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:we_meet/utils/globals.dart' as globals;
+import 'package:we_meet/screens/news_list.dart';
+
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  static final links = ['https://google.com'];
+
+  TabController _tabController;
+  Timer timer;
+
+  List<String> tabs = [
+    "SPORTS",
+  ];
+  BaseURL baseURL = new BaseURL();
+  bool _saving = true;
+
+  @override
+  void initState() {
+    super.initState();
+     
+     _populateNewsArticles();
+
+     _populateListArticles();
+
+    timer = Timer.periodic(
+        Duration(seconds: 2),
+        (Timer t) => {
+              getValuesSF(),
+            });
+
+ 
+  }
+
+  getValuesSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      //Return String
+      String stringValue = prefs.getString('lng')!=null?prefs.getString('lng'):'English';
+      globals.categories = prefs.getStringList('cat')!=null ?prefs.getStringList('cat'):[
+    "SPORTS",
+   
+  ];
+  
+      
+      tabs = globals.categories;
+
+      print("stringValuecat${globals.categories}");
+      print("TESTTTT$tabs");
+      if (tabs.length > 1) {
+        _tabController = new TabController(vsync: this, length: tabs.length);
+        _tabController.addListener(_handleTabSelection);
+
+        globals.tabcategory = [];
+        globals.tabcategory.add(tabs[0].toLowerCase());
+        _saving = false;
+
+        timer.cancel();
+      }
+      if (stringValue != null && stringValue.length > 0) {
+        globals.newslanguage = stringValue;
+      } else {
+        globals.newslanguage = 'English';
+      }
+    });
+  }
+
+  void _handleTabSelection() {
+    setState(() {
+      print(" index: ${_tabController.index}");
+      globals.tabcategory = [];
+      globals.tabcategory.add(tabs[_tabController.index].toLowerCase());
+      
+    });
+  }
+
+
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+
+void _populateListArticles() {
+    Webservice().load(NewsArticle.all).then((newsArticles) => {
+          print("_populateNewsArticles$newsArticles"),
+          _saving = false,
+          setState(() => {globals.newsArticles = newsArticles, _saving = false})
+        });
+  }
+
+
+  void _populatetrendingArticles() {
+    Webservice()
+        .gettrendingnews(Trendinglist.calltrendingnews())
+        .then((newsArticlesTrending) => {
+              print("_populatetrendingArticles$newsArticlesTrending"),
+              setState(() => {
+                    globals.trendingNews = newsArticlesTrending,
+                    if (newsArticlesTrending.length > 0)
+                      {
+                        globals.islidershow = true,
+                      }
+                  })
+            });
+  }
+
+
+  void _populateNewsArticles() {
+    Webservice()
+        .getallcategory(Categorylist.callgetcategorylist())
+        .then((detailsNews) => {
+              setState(() => {
+                    _saving = false,
+                    globals.categories = [],
+                    globals.tabcategory = [],
+                   
+                    for (var i = 0; i < detailsNews.length; i++)
+                      {
+                        globals.categories.add(capitalize(detailsNews[i])),
+                        globals.tabcategory
+                            .add(globals.categories[0].toLowerCase()),
+                      },
+                    savecat()
+                  })
+            });
+  }
+
+
+  void savecat() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      prefs.setStringList("cat", globals.categories);
+      print("detailsNewsdetailsNewsdetailsNews>>>>>>>>>>${globals.categories}");
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: tabs.length == 1
+            ? Container(
+                color: Colors.white,
+              )
+            : Container(
+                child: Scaffold(
+                        //backgroundColor: Colors.transparent,
+                        appBar: AppBar(
+            centerTitle: true,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                GestureDetector(
+                    onTap: () {
+                      print('hiii');
+                    },
+                    child: Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                    )),
+                Text("News ",
+                    style: TextStyle(
+                      decoration: TextDecoration.none,
+                      fontFamily: globals.fontNews,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    )),
+                Icon(
+                  Icons.language,
+                  color: Colors.black,
+                  size: 22,
+                ),
+              ],
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            bottom: new TabBar(
+              unselectedLabelColor: Colors.black,
+              labelColor: Colors.black,
+              labelStyle: TextStyle(
+                fontFamily: globals.fontNews,
+                fontWeight: FontWeight.bold,
+              ),
+              unselectedLabelStyle: TextStyle(
+                fontFamily: globals.fontNews,
+                fontWeight: FontWeight.normal,
+              ),
+              isScrollable: true,
+              indicatorColor: Colors.transparent,
+              controller: _tabController,
+              tabs: List<Widget>.generate(tabs.length, (int index) {
+                print(tabs[0] + "--------------------------");
+
+                return new Tab(
+                    child: Text(
+                  tabs[index],
+                ));
+              }),
+
+            ),
+          ),
+                        body: ModalProgressHUD(
+                          inAsyncCall: _saving,
+                          progressIndicator: CircularProgressIndicator(
+                            valueColor:
+                                new AlwaysStoppedAnimation<Color>(Colors.pink),
+                          ),
+                          child: new TabBarView(
+                            controller: _tabController,
+                            children:
+                                List<Widget>.generate(tabs.length, (int index) {
+                              print(tabs[0]+"===========");
+
+                              return new NewsListing();
+                            }),
+                            
+                          ),
+                        )),
+              ));
+  }
+
+  
+
+
+  //end here pushnotification  code
+}
+
+class SizeConfig {
+  static MediaQueryData _mediaQueryData;
+  static double screenWidth;
+  static double screenHeight;
+  static double blockSizeHorizontal;
+  static double blockSizeVertical;
+
+  void init(BuildContext context) {
+    _mediaQueryData = MediaQuery.of(context);
+    screenWidth = _mediaQueryData.size.width;
+    screenHeight = _mediaQueryData.size.height;
+    blockSizeHorizontal = screenWidth / 100;
+    blockSizeVertical = screenHeight / 100;
+  }
+}

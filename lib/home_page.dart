@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:ui_test/services/webservice.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:ui_test/models/Categorylist.dart';
 import 'package:ui_test/categories_navigator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ui_test/categories_navigator.dart';
@@ -16,36 +22,90 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  int _counter = 0;
+  Timer timer;
   TabController _tabController;
-//  List<String> allCat = [
-//       "World",
-//       "Tech",
-//       "World",
-//       "Tech",
-//       "Sports",
-//       "Politics",
-//       "Health"
-//     ];
-  List<Tab> allCat = <Tab>[
-    new Tab(text: 'World'),
-    new Tab(text: 'Tech'),
-    new Tab(text: 'World'),
-    new Tab(text: 'Tech'),
-    new Tab(text: 'Sports'),
-    new Tab(text: 'Politics'),
-    new Tab(text: 'Health'),
+
+  List<String> tabs = [
+    "SPORTS",
   ];
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: allCat.length);
+     //_tabController = new TabController(vsync: this, length: tabs.length);
+
+    _populateCategories();
+
+    timer = Timer.periodic(
+        Duration(seconds: 2),
+        (Timer t) => {
+              getValuesSF(),
+            });
+  }
+
+  void _populateCategories() {
+    Webservice()
+        .getallcategory(Categorylist.callgetcategorylist())
+        .then((detailsNews) => {
+              setState(() => {
+                    globals.categories = [],
+                    globals.tabcategory = [],
+                    for (var i = 0; i < detailsNews.length; i++)
+                      {
+                        globals.categories.add((detailsNews[i])),
+                        
+                        tabs.add(detailsNews[i]),
+                        globals.tabcategory
+                            .add(globals.categories[0].toLowerCase()),
+                      },
+                    savecat()
+                  })
+            });
+  }
+
+  void savecat() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(globals.categories);
+    print("--------------");
+    setState(() {
+      prefs.setStringList("cat", globals.categories);
+      print("detailsNewsdetailsNewsdetailsNews>>>>>>>>>>${globals.categories}");
+    });
+  }
+
+  getValuesSF() async {
+   
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      //Return String
+      String stringValue =
+          prefs.getString('lng') != null ? prefs.getString('lng') : 'English';
+      globals.categories = prefs.getStringList('cat') != null
+          ? prefs.getStringList('cat')
+          : [
+              "SPORTS",
+            ];
+tabs.clear();
+      tabs = globals.categories;
+
+      print("stringValuecat${globals.categories}");
+      print("TESTTTT$tabs");
+      if (tabs.length > 1) {
+        _tabController = new TabController(vsync: this, length: tabs.length);
+        //_tabController.addListener(_handleTabSelection);
+
+        globals.tabcategory = [];
+        globals.tabcategory.add(tabs[0].toLowerCase());
+
+        timer.cancel();
+      }
+      if (stringValue != null && stringValue.length > 0) {
+        globals.newslanguage = stringValue;
+      } else {
+        globals.newslanguage = 'English';
+      }
+    });
   }
 
   @override
@@ -68,19 +128,14 @@ class _MyHomePageState extends State<MyHomePage>
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-              InkWell(  onTap: () {
-                  print("Hiiiiiiiiiii");
-                  
-                }, child: Icon(Icons.menu,color: Colors.black, )),
-        //         IconButton(
-        //     icon: Icon(Icons.menu),
-        //     color: Colors.black,
-        //    alignment: Alignment.center,
-        //       padding: new EdgeInsets.all(0.0),
-        //     onPressed: (){
-        //       print('function is executed, but there is no expanstion triggering !');
-        //     }
-        // ),
+                GestureDetector(
+                    onTap: () {
+                      print('hiii');
+                    },
+                    child: Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                    )),
                 Text("News ",
                     style: TextStyle(
                       decoration: TextDecoration.none,
@@ -88,11 +143,11 @@ class _MyHomePageState extends State<MyHomePage>
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     )),
-                // Icon(
-                //   Icons.language,
-                //   color: Colors.black,
-                //   size: 22,
-                // ),
+                Icon(
+                  Icons.language,
+                  color: Colors.black,
+                  size: 22,
+                ),
               ],
             ),
             backgroundColor: Colors.transparent,
@@ -111,7 +166,14 @@ class _MyHomePageState extends State<MyHomePage>
               isScrollable: true,
               indicatorColor: Colors.transparent,
               controller: _tabController,
-              tabs: allCat,
+              tabs: List<Widget>.generate(tabs.length, (int index) {
+                print(tabs[0] + "--------------------------");
+
+                return new Tab(
+                    child: Text(
+                  tabs[index],
+                ));
+              }),
 
               // tabs: List<Widget>.generate(allCat.length, (int index) {
               //   return Tab(
@@ -119,24 +181,22 @@ class _MyHomePageState extends State<MyHomePage>
               //       child: Align(
               //         alignment: Alignment.center,
               //         child: Text(
-              //           allCat[index],
-              //           style: TextStyle(
-              //               color: Colors.red,
-              //               fontSize: 12.0,
-              //               fontWeight: FontWeight.w400,
-              //               fontFamily: globals.font_news),
+              //           allCat[index].text,
+
               //         ),
               //       ),
               //     ),
               //   );
-              // }
+              // }),
             ),
           ),
           body: new TabBarView(
             controller: _tabController,
-            children: allCat.map((Tab tab) {
+            children: List<Widget>.generate(tabs.length, (int index) {
+              print(tabs[0] + "===========");
+
               return new NewsListing();
-            }).toList(),
+            }),
           ),
         ));
   }

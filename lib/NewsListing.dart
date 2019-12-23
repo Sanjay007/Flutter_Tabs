@@ -5,20 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:ui_test/details_page.dart' as prefix2;
 import 'package:ui_test/news_slider.dart' as prefix1;
 import 'package:ui_test/utils/globals.dart' as globals;
 import 'package:ui_test/models/news_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ui_test/news_slider.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:ui_test/news_details.dart';
-
-import 'package:ui_test/details_page.dart';
-
-import 'package:ui_test/hotel-details.dart';
-
-import 'package:ui_test/news_details_old.dart';
 import 'package:ui_test/NewsDetails.dart';
+
 
 class NewsListing extends StatefulWidget {
   @override
